@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kina w {{ city.name }}</title>
+</head>
+<body>
+    <h1>Kina w {{ city.name }}</h1>
+    <ul>
+        {% for cinema in cinemas %}
+            <li>
+                <a href="{{ url_for('showtimes', cinema_id=cinema.id) }}">{{ cinema.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
