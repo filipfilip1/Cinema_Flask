@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rezerwacja biletów do kina</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        ul {
+            margin-top: 100px;
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+        ul li {
+            list-style: none;
+            font-size: 40px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wybierz swoje miasto:</h1>
+    <ul>
+        {% for city in cities %}
+            <li>
+                <a href="{{ url_for('cinemas', city_id=city.id) }}">{{ city.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

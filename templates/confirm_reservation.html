@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmation</title>
+    <style>
+        body {
+            margin-left: 30px;
+        }
+
+        .ticket {
+            border: 1px solid black;
+            margin: 10px;
+            padding: 10px;
+            width: 200px
+        }
+
+
+        a {
+            color: green;
+            text-decoration: none;
+            margin: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Dziękujemy za rezerwacje!</h1>
+    <p>Twoja rezerwacja zostało potwierdzona :</p>
+    <p>Film : {{ showtime.movie.title }}</p>
+    <p>Godzina : {{ showtime.start_time }}</p>
+    <p>Sala : {{ showtime.hall.number }}</p>
+    <p>Imię: {{ client_name }}</p>
+    <p>Ilość zamówionych biletów : {{ number_tickets }}</p>
+
+    {%  for seat_info in seats_info %}
+        <div class="ticket">
+            <p>Numer rzędu: {{ seat_info['seat_row'] }}</p>
+            <p>Numer kolumny: {{ seat_info['seat_column'] }}</p>
+        </div>
+    {% endfor %}
+
+    <div class="container">
+        <a href="{{ url_for('home') }}">Wróć na stronę główną</a>
+        <a href="{{ url_for('cinemas', city_id = showtime.hall.cinema.city_id) }}">Wróć na stronę kina</a>
+    </div>
+
+
+
+</body>
+</html>

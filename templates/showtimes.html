@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ cinema.name }} - Repertuar</title>
+    <style>
+        h1, h2 {
+            text-align: center;
+        }
+
+        a {
+            color: green;   
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <h1> {{ cinema.name }}</h1>
+    <h2>{{ cinema.city.name }}</h2>
+    <h2>Repertuar:</h2>
+    <ul>
+    {% for hall in cinema.halls %}
+        {% for showtime in hall.showtimes %}
+            <li>
+                <h4>{{ showtime.movie.title }}</h4>
+                <p>Godzina rozpoczęcia: {{ showtime.start_time }}</p>
+                <p>Sala: {{ hall.number }}</p>
+                <a href="{{ url_for('select_seat', showtime_id=showtime.id) }}">kup Bilet</a>
+            </li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</body>
+</html>
