@@ -5,7 +5,7 @@ db = SQLAlchemy()
 
 class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False, unique=True)
     cinemas = db.relationship('Cinema', backref='city')
 
 
@@ -36,7 +36,7 @@ class Seat(db.Model):
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String, nullable=False, unique=True)
     director = db.Column(db.String, nullable=False)
     production_year = db.Column(db.Integer, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
