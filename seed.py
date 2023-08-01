@@ -8,10 +8,7 @@ def init_db():
     db.create_all()
 
     cities = [City(name='Gdańsk'), City(name='Gdynia'), City(name='Sopot')]
-    for city in cities:
-        if City.query.filter_by(name=city.name).first() is None:
-            db.session.add(city)
-
+    db.session.add_all(cities)
     db.session.commit()
 
     cinemas = [Cinema(name='Helios', city=cities[0]),
