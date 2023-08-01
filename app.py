@@ -1,3 +1,4 @@
+import os
 import json
 from flask import Flask, render_template, abort, request
 from models import db, City, Cinema, Showtime, ReservationTicket, Seat
@@ -96,4 +97,4 @@ def confirm_reservation(showtime_id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
