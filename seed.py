@@ -2,6 +2,7 @@ import datetime
 from app import db
 from models import Showtime, Hall, Movie, Cinema, City, Seat
 
+
 def init_db():
     db.drop_all()
     db.create_all()
