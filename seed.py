@@ -1,52 +1,49 @@
 import datetime
-from app import db
-from models import Showtime, Hall, Movie, Cinema, City, Seat
+from models import Showtime, Hall, Movie, Cinema, City
+from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_exist
 
 
-def init_db():
-    db.drop_all()
-    db.create_all()
+def init_db(app_instance, db_instance):
+    with app_instance.app_context():
+        db_instance.drop_all()
+        db_instance.create_all()
 
-    cities = [City(name='Gdańsk'), City(name='Gdynia'), City(name='Sopot')]
-    db.session.add_all(cities)
-    db.session.commit()
+        set_global_genres()
+        popular_movies = fetch_popular_movie()
+        save_movie_if_not_exist(popular_movies)
 
-    cinemas = [Cinema(name='Helios', city=cities[0]),
-               Cinema(name='Helios', city=cities[1]),
-               Cinema(name='Helios', city=cities[2])]
+        cities = ["Gdańsk", "Gdynia", "Sopot"]
+        for city_name in cities:
+            city_obj = City(name=city_name)
+            db_instance.session.add(city_obj)
 
-    db.session.add_all(cinemas)
-    db.session.commit()
+            for i in range(2):
+                cinema = Cinema(name=f"Kino {city_name} {i+1}", city=city_obj)
+                db_instance.session.add(cinema)
 
-    halls = [Hall(number=1, cinema=cinemas[0]),
-             Hall(number=2, cinema=cinemas[0]),
-             Hall(number=1, cinema=cinemas[1]),
-             Hall(number=2, cinema=cinemas[1]),
-             Hall(number=1, cinema=cinemas[2]),
-             Hall(number=2, cinema=cinemas[2])]
+                for j in range(4):
+                    hall = Hall(name=f"Sala {j+1}", rows=10, columns=10, cinema=cinema)
+                    db_instance.session.add(hall)
 
-    db.session.add_all(halls)
-    db.session.commit()
+        db_instance.session.commit()
 
-    for hall in halls:
-        for row in range(1, 6):
-            for column in range(1, 11):
-                seat = Seat(seat_row=row, seat_column=column, hall=hall)
-                db.session.add(seat)
-    db.session.commit()
+        popular_movie_ids = [movie['id'] for movie in popular_movies]
+        movies_to_show = Movie.query.filter(Movie.tmdb_id.in_(popular_movie_ids)).all()
 
-    movies = [Movie(title='Oppenheimer', director='Christopher Nolan', production_year=2023, duration=180, genre='biography'),
-              Movie(title='Barbie', director='Greta Gerwig', production_year=2023, duration=114, genre='comedy')]
+        showtime_hours = [8, 12, 16, 20]
+        today = datetime.date.today()
+        movie_index = 0
 
-    db.session.add_all(movies)
-    db.session.commit()
+        for day in range(7):
+            for cinema in Cinema.query.all():
+                for hall in cinema.halls:
+                    for hour in showtime_hours:
+                        movie = movies_to_show[movie_index]
+                        start_time = datetime.datetime.combine(today + datetime.timedelta(days=day),
+                                                               datetime.time(hour=hour))
+                        showtime = Showtime(start_time=start_time, date=start_time.date(), movie=movie, hall=hall)
+                        db_instance.session.add(showtime)
 
-    showtimes = [Showtime(movie=movies[0], hall=halls[0], start_time=datetime.datetime.combine(datetime.date.today(), datetime.time(15, 0))),
-                 Showtime(movie=movies[0], hall=halls[1], start_time=datetime.datetime.combine(datetime.date.today(), datetime.time(18, 0))),
-                 Showtime(movie=movies[1], hall=halls[2], start_time=datetime.datetime.combine(datetime.date.today(), datetime.time(15, 0))),
-                 Showtime(movie=movies[1], hall=halls[3], start_time=datetime.datetime.combine(datetime.date.today(), datetime.time(18, 0))),
-                 Showtime(movie=movies[0], hall=halls[4], start_time=datetime.datetime.combine(datetime.date.today(), datetime.time(15, 0))),
-                 Showtime(movie=movies[1], hall=halls[5], start_time=datetime.datetime.combine(datetime.date.today(), datetime.time(18, 0)))]
+                        movie_index = (movie_index + 1) % len(movies_to_show)
 
-    db.session.add_all(showtimes)
-    db.session.commit()
+        db_instance.session.commit()
