@@ -1,6 +1,7 @@
 import requests
 from models import db, Movie
 from decouple import config
+from datetime import datetime
 
 TMDB_API_KEY = config('API_KEY_TMDB')
 TMDB_POPULAR_URL = 'https://api.themoviedb.org/3/movie/popular'
@@ -79,12 +80,16 @@ def save_movie_if_not_exist(movies):
             genres = _convert_genres_ids_to_names(movie_data['genre_ids'])
             runtime = movie_details.get('runtime', 0)
 
+            # Convert date from string format to date object for compatibility with SQLite database
+            release_date_str = movie_data['release_date']
+            release_date_obj = datetime.strptime(release_date_str, '%Y-%m-%d').date()
+
             movie = Movie(
                 tmdb_id=movie_data['id'],
                 title=movie_data['title'],
                 director=director,
                 actors=actors,
-                release_date=movie_data['release_date'],
+                release_date=release_date_obj,
                 runtime=runtime,
                 genre=genres,
                 overview=movie_data['overview'],

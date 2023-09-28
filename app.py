@@ -1,12 +1,11 @@
 from flask import Flask, abort, request, jsonify
 from models import db, City, Cinema, Showtime, ReservationTicket, Movie
 from seed import init_db
-from decouple import config
 from datetime import datetime
 import uuid
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cinema_database.db'
 db.init_app(app)
 
 
