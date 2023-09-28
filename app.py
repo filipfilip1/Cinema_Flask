@@ -5,12 +5,20 @@ from decouple import config
 from datetime import datetime
 import uuid
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
-db.init_app(app)
+
+def create_app():
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+    db.init_app(app)
+
+    with app.app_context():
+        if not City.query.first():
+            init_db(app, db)
+
+    return app
 
 
-init_db(app, db)
+app = create_app()
 
 
 @app.route('/api/cities', methods=['GET'])
