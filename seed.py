@@ -3,8 +3,6 @@ from app import create_app
 from models import db, Showtime, Hall, Movie, Cinema, City
 from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_exist
 
-app = create_app()
-
 
 def init_db():
     with create_app().app_context():
