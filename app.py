@@ -1,6 +1,5 @@
 from flask import Flask, abort, request, jsonify
 from models import db, City, Cinema, Showtime, ReservationTicket, Movie
-from seed import init_db
 from decouple import config
 from datetime import datetime
 import uuid
@@ -11,14 +10,9 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
     db.init_app(app)
 
-    with app.app_context():
-        if not City.query.first():
-            init_db(app, db)
-
     return app
 
 
-app = create_app()
 
 
 @app.route('/api/cities', methods=['GET'])
@@ -121,6 +115,3 @@ def get_repertuar():
 
     return jsonify(movies_list)
 
-
-if __name__ == '__main__':
-    app.run()

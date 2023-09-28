@@ -1,6 +1,9 @@
 import datetime
-from models import Showtime, Hall, Movie, Cinema, City
+from app import create_app, db
+from models import db, Showtime, Hall, Movie, Cinema, City
 from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_exist
+
+app = create_app()
 
 
 def init_db(app_instance, db_instance):
@@ -47,3 +50,9 @@ def init_db(app_instance, db_instance):
                         movie_index = (movie_index + 1) % len(movies_to_show)
 
         db_instance.session.commit()
+
+
+if __name__ == "__main__":
+    with app.app_context():
+        if not City.query.first():
+            init_db(app, db)
