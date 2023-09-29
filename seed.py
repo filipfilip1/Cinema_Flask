@@ -6,6 +6,7 @@ from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_e
 
 def init_db():
     with create_app().app_context():
+        db.drop_all()
         db.create_all()
 
         set_global_genres()
