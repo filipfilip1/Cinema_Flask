@@ -1,14 +1,23 @@
-from flask import Flask, abort, request, jsonify
+from flask import Flask, abort, request, jsonify, send_from_directory
 from models import db, City, Cinema, Showtime, ReservationTicket, Movie
 from decouple import config
 from datetime import datetime
 import uuid
+import os
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="frontend/build")
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
     db.init_app(app)
+
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def serve(path):
+        if path != "" and os.path.exists(app.static_folder + '/' + path):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')
 
     @app.route('/api/cities', methods=['GET'])
     def get_cities():
