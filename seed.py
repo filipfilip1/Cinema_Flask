@@ -14,16 +14,19 @@ def init_db():
 
         cities = ["Gdańsk", "Gdynia", "Sopot"]
         for city_name in cities:
-            city_obj = City(name=city_name)
-            db.session.add(city_obj)
+            city = City.query.filter_by(name=city_name).first()
+            if not city:
+                city_obj = City(name=city_name)
+                db.session.add(city_obj)
+                db.session.commit()
 
-            for i in range(2):
-                cinema = Cinema(name=f"Kino {city_name} {i+1}", city=city_obj)
-                db.session.add(cinema)
+                for i in range(2):
+                    cinema = Cinema(name=f"Kino {city_name} {i+1}", city=city_obj)
+                    db.session.add(cinema)
 
-                for j in range(4):
-                    hall = Hall(name=f"Sala {j+1}", rows=10, columns=10, cinema=cinema)
-                    db.session.add(hall)
+                    for j in range(4):
+                        hall = Hall(name=f"Sala {j+1}", rows=10, columns=10, cinema=cinema)
+                        db.session.add(hall)
 
         db.session.commit()
 
