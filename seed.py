@@ -1,12 +1,15 @@
 import datetime
 from app import create_app
-from models import db, Showtime, Hall, Movie, Cinema, City
+from models import db, Showtime, Hall, Movie, Cinema, City, Seat
 from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_exist
 
 
 def init_db():
     with create_app().app_context():
-        db.drop_all()
+        tables_to_drop = [Seat.__table__, Hall.__table__, Cinema.__table__, City.__table__, Movie.__table__, Showtime.__table__]
+        for table in tables_to_drop:
+            table.drop(db.get_engine(), checkfirst=True)
+
         db.create_all()
 
         set_global_genres()
