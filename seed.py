@@ -6,14 +6,12 @@ from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_e
 
 def init_db():
     with create_app().app_context():
-        Showtime.__table__.drop(db.engine, checkfirst=True)
-        Seat.__table__.drop(db.engine, checkfirst=True)
-        Hall.__table__.drop(db.engine, checkfirst=True)
-        Movie.__table__.drop(db.engine, checkfirst=True)
-        Cinema.__table__.drop(db.engine, checkfirst=True)
-        City.__table__.drop(db.engine, checkfirst=True)
-
-        db.create_all()
+        Showtime.__table__.drop(db.engine, checkfirst=True, cascade=True)
+        Seat.__table__.drop(db.engine, checkfirst=True, cascade=True)
+        Hall.__table__.drop(db.engine, checkfirst=True, cascade=True)
+        Movie.__table__.drop(db.engine, checkfirst=True, cascade=True)
+        Cinema.__table__.drop(db.engine, checkfirst=True, cascade=True)
+        City.__table__.drop(db.engine, checkfirst=True, cascade=True)
 
         set_global_genres()
         popular_movies = fetch_popular_movie()
