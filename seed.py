@@ -1,11 +1,12 @@
 import datetime
 from app import create_app
-from models import db, Showtime, Hall, Movie, Cinema, City, Seat, ReservationTicket
+from models import db, Showtime, Hall, Movie, Cinema, City
 from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_exist
 
 
 def init_db():
     with create_app().app_context():
+
         db.create_all()
 
         set_global_genres()
@@ -52,3 +53,4 @@ def init_db():
         db.session.commit()
 
 
+init_db()
