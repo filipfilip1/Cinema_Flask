@@ -6,7 +6,6 @@ from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_e
 
 def init_db():
     with create_app().app_context():
-        ReservationTicket.__table__.drop(db.engine, checkfirst=True)
         Showtime.__table__.drop(db.engine, checkfirst=True)
         Seat.__table__.drop(db.engine, checkfirst=True)
         Hall.__table__.drop(db.engine, checkfirst=True)
