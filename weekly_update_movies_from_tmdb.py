@@ -32,4 +32,6 @@ def weekly_update_movies_from_tmdb():
         db.session.commit()
 
 
-weekly_update_movies_from_tmdb()
+# add movies to database on sunday
+if datetime.datetime.today().weekday() == 6:
+    weekly_update_movies_from_tmdb()
