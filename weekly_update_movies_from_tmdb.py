@@ -1,35 +1,14 @@
 import datetime
 from app import create_app
-from models import db, Showtime, Hall, Movie, Cinema, City
+from models import db, Showtime, Movie, Cinema
 from tmdb_api import set_global_genres, fetch_popular_movie, save_movie_if_not_exist
 
 
-def init_db():
+def weekly_update_movies_from_tmdb():
     with create_app().app_context():
-
-        db.create_all()
-
         set_global_genres()
         popular_movies = fetch_popular_movie()
         save_movie_if_not_exist(popular_movies)
-
-        cities = ["Gdańsk", "Gdynia", "Sopot"]
-        for city_name in cities:
-            city = City.query.filter_by(name=city_name).first()
-            if not city:
-                city_obj = City(name=city_name)
-                db.session.add(city_obj)
-                db.session.commit()
-
-                for i in range(2):
-                    cinema = Cinema(name=f"Kino {city_name} {i+1}", city=city_obj)
-                    db.session.add(cinema)
-
-                    for j in range(4):
-                        hall = Hall(name=f"Sala {j+1}", rows=10, columns=10, cinema=cinema)
-                        db.session.add(hall)
-
-        db.session.commit()
 
         popular_movie_ids = [movie['id'] for movie in popular_movies]
         movies_to_show = Movie.query.filter(Movie.tmdb_id.in_(popular_movie_ids)).all()
@@ -53,4 +32,4 @@ def init_db():
         db.session.commit()
 
 
-init_db()
+weekly_update_movies_from_tmdb()
