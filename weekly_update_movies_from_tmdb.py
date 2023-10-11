@@ -33,5 +33,5 @@ def weekly_update_movies_from_tmdb():
 
 
 # add movies to database on sunday
-if datetime.datetime.today().weekday() == 6:
+if datetime.datetime.today().weekday() == 2:
     weekly_update_movies_from_tmdb()

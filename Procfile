@@ -1,2 +1,2 @@
 web: gunicorn wsgi:app
-release: python seed.py
+# release: python  seed.py
