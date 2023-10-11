@@ -3,7 +3,7 @@
 ## Description
 Cinema_Flask is a web application designed for browsing movie showtimes and reserving seats for selected screenings in a specific cinema. Showtimes are created based on data fetched weekly from TMDB API using Heroku Scheduler. The application is built using React for the frontend and Flask for the backend and is deployed on the Heroku platform. Currently, the application is optimized for desktop devices.
 
-## [Live Version](https://cinemareservation-1a5118dab777.herokuapp.com/) - temporarily not working
+## [Live Version](https://cinemareservation-1a5118dab777.herokuapp.com/)
 
 ### Features:
 - **Browse Listings:** View the current cinema listings.
