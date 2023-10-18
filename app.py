@@ -3,12 +3,15 @@ from models import db, City, Cinema, Showtime, ReservationTicket, Movie
 from decouple import config
 from datetime import datetime
 import uuid
+import dj_database_url
 import os
 
 
 def create_app():
     app = Flask(__name__, static_folder="frontend/build")
-    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+    DATABASE_URL = config('DATABASE_URL')
+    app.config['SQLALCHEMY_DATABASE_URI'] = dj_database_url.parse(DATABASE_URL)
+
     db.init_app(app)
 
     @app.route("/", defaults={"path": ""})

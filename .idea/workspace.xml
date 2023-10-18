@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f39ad100-1125-4f44-9819-7b9bf41b237a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Cinema_Flask.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Cinema_Flask.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weekly_update_movies_from_tmdb.py" beforeDir="false" afterPath="$PROJECT_DIR$/weekly_update_movies_from_tmdb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +115,10 @@
       <workItem from="1696056384675" duration="1537000" />
       <workItem from="1696144308961" duration="9420000" />
       <workItem from="1696226975420" duration="4677000" />
-      <workItem from="1697001726232" duration="657000" />
+      <workItem from="1697001726232" duration="1082000" />
+      <workItem from="1697006337554" duration="16000" />
+      <workItem from="1697006354896" duration="2172000" />
+      <workItem from="1697619834087" duration="1105000" />
     </task>
     <servers />
   </component>
